@@ -1,4 +1,4 @@
-package com.tutorialsninja.qa.Utilities;
+package com.qa.Centivo_ep.Utilities;
 
 import java.time.Duration;
 import org.openqa.selenium.WebDriver;

@@ -38,9 +38,24 @@ When user clicks on the Next button
 Then Application should display an error message "Sorry, we don’t recognize this email address."
 
 @LockedAccountWithDateTimeStamp
-Scenario: Verify login to employer portal with locked account due to too many attempts
+Scenario: Verify login to employer portal with locked account due to three failed attempts
 Given user navigates to Centivo employer portal LoginPage
-And user enters invalid email "jahangir.ali1@centivo.com" and invalid password "Technova2025@" repeatedly
+And user enters valid email "jahangir.ali@centivo.com" for the first time
+And user enters invalid password "Technova2025@" first time
+Then Next button gets activated
+When user clicks on the Next button
+Then Application should display an incorrect password error message "You have entered an incorrect password."
+Given user navigates to Centivo employer portal LoginPage
+And user enters valid email "jahangir.ali@centivo.com" for the second time
+And user enters invalid password "Technova2025@" second time
+Then Next button gets activated
+When user clicks on the Next button
+And Application should display a lockout warning error message "You have entered an incorrect password. You have one attempt remaining before being temporarily locked out."
+Given user navigates to Centivo employer portal LoginPage
+And user enters valid email "jahangir.ali@centivo.com" for the third time
+And user enters invalid password "Technova2025@" third time
+Then Next button gets activated
+When user clicks on the Next button
 Then Application should display an error message with DateTimeStamp "Account locked due to too many attempts. Account will unlock: 11/7/2024, 1:01:35 PM."
 
 @RetrievingLockedAccountWithClientSuccessExecutive

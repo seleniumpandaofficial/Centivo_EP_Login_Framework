@@ -6,7 +6,7 @@
       <class name="com.qa.centivo_ep.Runner.Runner_TestNG">
         <methods>
           <include name="setUpClass"/>
-          <include name="runScenario" invocation-numbers="6"/>
+          <include name="runScenario" invocation-numbers="1"/>
           <include name="tearDownClass"/>
         </methods>
       </class> <!-- com.qa.centivo_ep.Runner.Runner_TestNG -->

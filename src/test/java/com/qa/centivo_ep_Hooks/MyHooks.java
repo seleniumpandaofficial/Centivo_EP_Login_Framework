@@ -7,9 +7,9 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import com.qa.Centivo_ep.Utilities.ConfigReader;
+import com.qa.Centivo_ep.Utilities.Util;
 import com.qa.centivo_ep_DriverFactory.DriverFactory;
-import com.tutorialsninja.qa.Utilities.ConfigReader;
-import com.tutorialsninja.qa.Utilities.Util;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

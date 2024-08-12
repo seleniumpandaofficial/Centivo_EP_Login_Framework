@@ -2,8 +2,10 @@ package com.qa.centivo_ep.StepDefinitions;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import com.qa.Centivo_ep.Utilities.Util;
 import com.qa.centivo_ep_DriverFactory.DriverFactory;
 import com.qa.centivo_ep_Pages.EnterVerificationCodePage;
 import com.qa.centivo_ep_Pages.LoginPage;
@@ -49,10 +51,8 @@ public class Login {
 
 	@When("user clicks on the Next button")
 	public void user_clicks_on_the_next_button() {
-		LoginPage loginpage = new LoginPage(driver);
-		EnterVerificationCodePage enterverificationcodepage = new EnterVerificationCodePage(driver);
-		enterverificationcodepage = loginpage.clickOnNextButton();
-		//driver.findElement(By.cssSelector("section._NextSection_1mh1d_33 > button")).click();
+		
+		driver.findElement(By.cssSelector("section._NextSection_1mh1d_33 > button")).click();
 	}
 
 	@Then("system is redirected to EnterVerificationCodePage")
@@ -116,9 +116,10 @@ public class Login {
 	}
 	
 	@Then("Application should display an incorrect password error message {string}")
-	public void application_should_display_an_incorrect_password_error_message(String incorrectPasswordWarningText) {
+	public void application_should_display_an_incorrect_password_error_message(String incorrectPasswordWarningText) throws Exception {
 		String actualIncorrectPasswordWarningMessage = driver.findElement(By.cssSelector("div.sc-hzhJZQ.itFboL > div:nth-child(2)")).getText();
 		String expectedIncorrectPasswordWarningMessage = "You have entered an incorrect password.";
+		Thread.sleep(2000);
 		Assert.assertTrue(actualIncorrectPasswordWarningMessage.equals(expectedIncorrectPasswordWarningMessage));
 		
 	}
@@ -162,4 +163,56 @@ public class Login {
 		driver.findElement(By.cssSelector("input#email")).sendKeys(validEmailText);
 		driver.findElement(By.cssSelector("input#password")).sendKeys(validPasswordText);
 	}
+	
+	
+	
+	
+	
+	
+	
+	@And("user enters valid email {string} for the first time")
+	public void user_enters_valid_email_for_the_first_time(String firstAttemptEmailText) {
+		driver.findElement(By.cssSelector("input#email")).sendKeys(firstAttemptEmailText);
+	}
+	
+	@And("user enters invalid password {string} first time")
+	public void user_enters_invalid_password_first_time(String firstAttemptInvalidPasswordText) {
+		driver.findElement(By.cssSelector("input#password")).sendKeys(firstAttemptInvalidPasswordText);
+		String actualIncorrectPasswordWarningMessage = driver.findElement(By.cssSelector("div.sc-hzhJZQ.itFboL > div:nth-child(2)")).getText();
+		String expectedIncorrectPasswordWarningMessage = "You have entered an incorrect password.";
+		Assert.assertTrue(actualIncorrectPasswordWarningMessage.equals(expectedIncorrectPasswordWarningMessage));
+	}
+	
+	
+	@And("user enters valid email {string} for the second time")
+	public void user_enters_valid_email_for_the_second_time(String secondAttemptEmailText) {
+		driver.findElement(By.cssSelector("input#email")).sendKeys(secondAttemptEmailText);	
+	}
+	
+	@And("user enters invalid password {string} second time")
+	public void user_enters_invalid_password_second_time(String secondAttemptInvalidPasswordText) {
+		driver.findElement(By.cssSelector("input#password")).sendKeys(secondAttemptInvalidPasswordText);
+		Assert.assertTrue(driver.findElement(By.xpath("//div[text() = 'You have entered an incorrect password. You have one attempt remaining before being temporarily locked out.']")).isDisplayed());
+	}
+	
+	
+	@And("user enters valid email {string} for the third time")
+	public void user_enters_valid_email_for_the_third_time(String thirdAttemptEmailText) {
+		driver.findElement(By.cssSelector("input#email")).sendKeys(thirdAttemptEmailText);		
+	}
+	
+	@And("user enters invalid password {string} third time")
+	public void user_enters_invalid_password_third_time(String thirdAttemptInvalidPasswordText) {
+		driver.findElement(By.cssSelector("input#password")).sendKeys(thirdAttemptInvalidPasswordText);
+		//String expectedeMessage = "Account locked due to too many log in attempts. Account will unlock: 8/12/2024, 6:02:47 PM";
+		//String actualMessage = driver.findElement(By.xpath("//span[text() = 'Account locked due to too many log in attempts. Account will unlock: 8/12/2024, 6:02:47 PM']")).getText();
+		
+		String message = "Account locked due to too many log in attempts. Account will unlock:" + Util.dateTimeStamp();
+		String xpath = "//span[text()='" + message + "']";
+		WebElement warningMessage = driver.findElement(By.xpath(xpath));
+		
+		Assert.assertTrue(warningMessage.isDisplayed());
+	  
+	}
+
 }
